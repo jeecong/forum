@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>个人主页</title>
+
+<!-- 	<script type="text/javascript">
+		 function jump()
+		 {
+		 	window.location.href = "publishnote"
+		 }
+	</script> -->
+	<script type="text/javascript">
+		function submitInfo(element)
+		{
+			var infoForm = document.getElementById('pubForm')
+			if(element.id == 'publish')
+			{
+				infoForm.action = 'publishnote'
+			}
+			infoForm.submit()
+		}
+	</script>
+</head>
+<body>
+<h1>{{userinfo.id}}</h1>
+	<h3>用户</h3>
+
+	<form method="post" id="pubForm">
+		<input type="hidden" name="flag" value="index">
+	<!-- 待修改 -->
+	     <input type="hidden" name="userid"  value="{{userinfo.id}}">
+	     <input type="button" value="发表帖子" id="publish" onclick="submitInfo(this)">
+	</form>
+
+	
+	
+
+</body>
+</html>

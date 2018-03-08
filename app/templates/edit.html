@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<!-- bootstrap自适应设备 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" type="image/png" href="/static/imgs/logo.jpg">
+	<title>发布帖子</title>
+	<!-- 引入css文件 -->
+	<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/style.css">
+	<style type="text/css">
+		* {
+			
+		}
+		.edit {
+			width: 100%;
+			height: 500px;
+			margin: 0 auto;
+		}
+		.input-group {
+			margin: 2% auto;
+			width: 40%;
+		}
+		#type {
+			margin: 2% auto;
+			width: 40%;
+		}
+		#content {
+			margin: 2% auto;
+			width: 40%;
+		}
+	</style>
+
+	<!-- 引入js文件 -->
+	<script type="text/javascript" src="/static/js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<!-- bootstrap容器 -->
+	<div class="container">
+		<!-- 导航栏 -->
+		<div class="Container">
+			<div class="nav">
+				<div id="logo"><img src="/static/imgs/logo.jpg" alt="..." class="img-circle"></div>
+				<div id="name"><img src="/static/imgs/font.png"></div>
+				
+				<div id="login"><button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true">欢迎你，{{pub.nickname}}</button></div>
+			</div>
+		</div>
+
+
+		<!-- 编辑帖子 -->
+		<div class="edit">
+			<h2 style="text-align: center;">编辑帖子</h2>
+			<form method="post"">
+				<div class="input-group"">
+		  			<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></span>
+		  			<input type="text" class="form-control" name="title" placeholder="请输入标题..." aria-describedby="basic-addon1">
+				</div>
+				<!-- <select class="form-control" id="type">
+					<option value="0">类型</option>
+          			<option value="1">攻略</option>
+          			<option value="2">吐槽</option>
+          			<option value="3">段子</option>
+        		</select> -->
+        		<textarea class="form-control" name="content" cols="20" rows="10" placeholder="请输入帖子内容"></textarea> 
+        		<input type="hidden" name="flag" value="publish">
+        		<input type="hidden" name="id" value="{{pub.id}}">
+        		<div style="text-align: center;"><button type="submit" class="btn btn-primary">提交</button></div>
+
+			</form>
+		</div>
+		<div class="footer">
+			<a target="_blank" href="#">王者峡谷py开黑小组</a>|
+			<a target="_blank" href="#">王者峡谷py开黑小组</a>|
+			<a target="_blank" href="#">王者峡谷py开黑小组</a>|
+			<a target="_blank" href="#">王者峡谷py开黑小组</a>|
+			<a target="_blank" href="#">王者峡谷py开黑小组</a>|
+			<a target="_blank" href="#">王者峡谷py开黑小组</a>|
+			<a target="_blank" href="#">王者峡谷py开黑小组</a>
+			<br>
+			<em class="fl">COPYRIGHT &copy; 1997 &ndash; 2017 WUST. ALL RIGHTS RESERVED.</em>
+		</div>
+
+
+
+	</div>
+</body>
+</html>

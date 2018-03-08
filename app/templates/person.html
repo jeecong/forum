@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<!-- bootstrap自适应设备 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" type="image/png" href="/static/imgs/logo.jpg">
+	<title>{{userinfo.nickname}}的个人主页</title>
+	<!-- 引入css文件 -->
+	<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/style.css">
+	<style type="text/css">
+		#user {
+			float: right;
+			margin-top: 5px;
+			margin-left: 20%;
+			z-index: 120;
+			width: 19%;
+		}
+		.container-fluid .main .notebox{
+		border: 1px red solid;
+		}
+		.container-fluid .main .notebox .delete{
+			float: right;
+			margin: 30px 50px;
+			border-radius: 5px;
+		}
+	</style>
+
+	<!-- 引入js文件 -->
+	<script type="text/javascript" src="/static/js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<!-- bootstrap容器 -->
+	<div class="container-fluid">
+		<!-- 导航栏 -->
+		<div class="subContainer">
+			<div class="nav">
+				<div id="logo"><img src="/static/imgs/logo.jpg" alt="..." class="img-circle"></div>
+				<div id="name"><a href="127.0.0.1:8000/app/select" target="_blank"><img src="/static/imgs/font.png"></a></div>
+				<div id="user"><h4>欢迎来到王者峡谷，<a href="#">{{userinfo.nickname}}</a></h4></div>
+			</div>
+			<div id="blank"></div>
+			<div id="goto"></div> 
+			<div id="news">
+				 <ul class="box">
+			        <li><img src="/static/imgs/lunbo1.jpg" alt=""></li>
+			        <li><img src="/static/imgs/lunbo2.jpg" alt=""></li>
+			        <li><img src="/static/imgs/lunbo3.jpg" alt=""></li>
+			        <li><img src="/static/imgs/lunbo4.jpg" alt=""></li>
+			        <li><img src="/static/imgs/lunbo5.jpg" alt=""></li>
+			    </ul>
+			    <div id="control">
+			        <span class="active">1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+			    </div>
+			</div>
+
+
+		</div>
+
+
+
+
+
+		<!-- 帖子主题 -->
+		<div class="main">
+			<div class="wrapper">
+				<div id="menu">
+
+
+					<div id="find"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>发现</div>
+					<div id="list">
+						<ul class="nav nav-pills">
+						  <li role="presentation" class="active"><a href="#">最新</a></li>
+						  <li role="presentation"><a href="#">最热</a></li>
+						  <li role="presentation"><a href="#">推荐</a></li>
+						</ul>
+					</div>
+				</div>
+
+
+
+
+				
+				{% for note in userinfo.notesArr %}
+				<div class="message">
+					<div class="header">		
+						<a href="#"><img src="{{note.publisher.url.url}}" class="img-circle"  onmouseover="showinfo(this)" onmouseleave="hiddeinfo(this)"></a>
+						<div class="pinfo" id="aaa">{{note.publisher.nickname}}</div>
+					</div>
+					<div class="content">
+						<div class="title"><a href="#" onclick="skimnews({{note.id}})">{{note.title}}</a></div>
+
+						<div class="comment">
+							<div class="time">发布日期：{{note.time}}</div>
+							<button class="delete" id="{{note.id}}" onclick="deletenotes(this)">删除</button>
+							<div class="good"><a href="#">23<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></a></div>
+							<div class="strap"><a href="#">123<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span></a></div>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+			<div class="side">
+				<div id="column">
+					<form method="post" id="pubForm">
+						<input type="hidden" name="flag" value="index">
+					<!-- 待修改 -->
+					     <input type="hidden" name="userid" value="{{userinfo.id}}">
+					     <input type="button" value="发表帖子" id="publish" onclick="submitInfo(this)">
+					     <input type="button" value="返回大厅" id="publish" onclick="returndating()">
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="footer">
+			<a target="_blank" href="#">王者峡谷py开黑小组</a>|
+			<a target="_blank" href="#">王者峡谷py开黑小组</a>|
+			<a target="_blank" href="#">王者峡谷py开黑小组</a>|
+			<a target="_blank" href="#">王者峡谷py开黑小组</a>|
+			<a target="_blank" href="#">王者峡谷py开黑小组</a>|
+			<a target="_blank" href="#">王者峡谷py开黑小组</a>|
+			<a target="_blank" href="#">王者峡谷py开黑小组</a>
+			<br>
+			<em class="fl">COPYRIGHT &copy; 1997 &ndash; 2017 WUST. ALL RIGHTS RESERVED.</em>
+		</div>
+
+
+
+	</div>
+	<!-- 轮播js -->
+	<script src="/static/js/move.js"></script>
+	<script>
+	/*轮播*/
+	    var oBox = document.getElementsByClassName('box')[0];
+	    var aLi = oBox.getElementsByTagName('li');
+	    var oC = document.getElementById('control');
+	    var aSpan =oC.getElementsByTagName('span');
+
+	    var onOff = true;
+	    var num = 0
+	    var num2 = 0;
+	    var timer = null
+
+	    var iWidth = aLi[0].offsetWidth;
+
+	    oBox.onmouseover = function () {
+	        clearInterval(timer)
+
+	    }
+	    oBox.onmouseout = function () {
+
+	        timer = setInterval(run,2000)
+
+	    }
+
+	    timer = setInterval(run,2000)
+
+
+	    for(var i=0;i<aLi.length;i++){
+
+	        aSpan[i].index = i;
+	        aSpan[i].onmouseover = function () {
+	            clearInterval(timer)
+	            if( onOff ){
+	                onOff = !onOff
+	                for( var i=0;i<aSpan.length;i++ ){
+	                    aSpan[i].className = ''
+	                }
+	                this.className = 'active'
+	                num = this.index;
+	                num2= this.index
+
+	                startMove(oBox,{left:-this.index*iWidth})
+	                onOff = !onOff
+	            }
+	        }
+	    }
+
+	    function run() {
+	        if(  num==0){
+	            aLi[0].style.position = 'static';
+	            oBox.style.left = 0;
+	            num2 = 0
+
+	        }
+	        if( num==aLi.length-1 ){
+	            num =0;
+
+	            aLi[0].style.position = 'relative';
+	            aLi[0].style.left = aLi.length*iWidth+'px'
+	            aLi[0].style.top = 0
+	        }else {
+	            num++
+	        }
+	        num2++
+
+	        for(var i=0;i<aLi.length;i++){
+	            aSpan[i].className = '';
+	        }
+	        aSpan[num].className = 'active';
+	        startMove( oBox , { left : - num2*iWidth } );
+	    }
+	    /*悬浮特效*/
+	    function showinfo(element) {
+			document.getElementById("aaa").style.display = 'block';
+			// alert(element.id)
+		}
+		function hiddeinfo(element){
+			document.getElementById("aaa").style.display = 'none';
+		}
+
+		/*发布帖子*/
+		function submitInfo(element)
+		{
+			var infoForm = document.getElementById('pubForm')
+			if(element.id == 'publish')
+			{
+				infoForm.action = 'publishnote'
+			}
+			infoForm.submit()
+		}
+		//删除帖子
+		function deletenotes(element){
+			//alert (element.id)
+			var xhr = new XMLHttpRequest()
+			xhr.onreadystatechange = function(e){
+				if (xhr.readyState==4) {
+					if (xhr.status==200) {
+
+						//alert(xhr.responseText)
+						if (xhr.responseText=='ok') {
+							alert('删除成功')
+							//删除后刷新页面
+							window.location.reload()
+						};
+					};
+				};
+
+			}
+
+			xhr.open('post','delete',true)
+
+			xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded')
+			xhr.send("notesid="+element.id)
+		}
+		function skimnews(newsid){
+			window.location.href='detail?notesid='+newsid
+		}
+		
+ 		function returndating(){
+ 			window.location.href="127.0.0.1:8000/app/select"
+ 		}
+	</script>
+</body>
+</html>

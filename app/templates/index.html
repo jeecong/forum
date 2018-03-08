@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<!-- bootstrap自适应设备 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" type="image/png" href="/static/imgs/logo.jpg">
+	<title>首页</title>
+	<!-- 引入css文件 -->
+	<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/style.css">
+
+
+	<!-- 引入js文件 -->
+	<script type="text/javascript" src="/static/js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+		
+
+		function register(){
+			//跳转到注册页面
+			window.location.href = "pubregister"
+		}
+		function login(){
+			//跳转到登录页面
+			window.location.href = "publogin"
+
+		}
+		function adminlogin(){
+			//跳转到管理员登录页面
+			window.location.href = "adminlogin"
+		}
+		/*#######################跳转详情###############################*/
+		function skimnews(notesid){
+			window.location.href = 'detail?notesid='+notesid;
+		}
+		/*页面加载*/
+    $(document).ready(function(){  
+        var range = 50;             //距下边界长度/单位px  
+        var elemt = 500;           //插入元素高度/单位px  
+        var maxnum = 20;            //设置加载最多次数  
+        var num = 1;  
+        var totalheight = 0;   
+        var main = $("#message");                     //主体元素  
+        $(window).scroll(function(){  
+            var srollPos = $(window).scrollTop();    //滚动条距顶部距离(页面超出窗口的高度)  
+              
+            //console.log("滚动条到顶部的垂直高度: "+$(document).scrollTop());  
+            //console.log("页面的文档高度 ："+$(document).height());  
+            //console.log('浏览器的高度：'+$(window).height());  
+              
+            totalheight = parseFloat($(window).height()) + parseFloat(srollPos);  
+            if(($(document).height()-range) <= totalheight  && num != maxnum) {  
+                main.append("<div style='border:1px solid tomato;margin-top:20px;color:#ac"+(num%20)+(num%20)+";height:"+elemt+"' >hello world"+srollPos+"---"+num+"</div>");  
+                num++;  
+            }  
+        });  
+    });  
+
+	</script>
+</head>
+<body>
+	<!-- bootstrap容器 -->
+	<div class="container-fluid">
+		<!-- 导航栏 -->
+		<div class="subContainer">
+			<div class="nav">
+				<div id="logo"><img src="/static/imgs/logo.jpg" alt="..." class="img-circle"></div>
+				<div id="name"><img src="/static/imgs/font.png"></div>
+				<div id="user_register"><button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="register()">用户注册</button></div>
+				<div id="user_login"><button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" onclick="login()">用户登录</button></div>
+
+				<div id="login"><button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" onclick="adminlogin()">管理员登录</button></div>
+			</div>
+			<div id="blank"></div>
+			<div id="goto"></div>
+			<div id="news">
+				 <ul class="box">
+			        <li><img src="/static/imgs/lunbo1.jpg" alt=""></li>
+			        <li><img src="/static/imgs/lunbo2.jpg" alt=""></li>
+			        <li><img src="/static/imgs/lunbo3.jpg" alt=""></li>
+			        <li><img src="/static/imgs/lunbo4.jpg" alt=""></li>
+			        <li><img src="/static/imgs/lunbo5.jpg" alt=""></li>
+			    </ul>
+			    <div id="control">
+			        <span class="active">1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+			    </div>
+			</div>
+		</div>
+		<!-- 帖子主题 -->
+		<div class="main">
+			<div class="wrapper">
+				<div id="menu">
+
+
+					<div id="find"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>发现</div>
+					<div id="list">
+						<ul class="nav nav-pills">
+						  <li role="presentation" class="active"><a href="#">最新</a></li>
+						  <li role="presentation"><a href="#">最热</a></li>
+						  <li role="presentation"><a href="#">推荐</a></li>
+						</ul>
+					</div>
+				</div>
+				{% for note in noteArr %}
+				<div class="message">
+					<div class="header">		
+						<a href="#"><img src="{{note.publisher.url.url}}" alt="..." class="img-circle"  onmouseover="showinfo(this)" onmouseleave="hiddeinfo(this)"></a>
+						<div id="user">{{note.publisher.nickname}}</div>
+						<div class="pinfo" id="aaa">{{note.publisher.nickname}}</div>
+					</div>
+					
+					<div class="content">
+<!-- #######################主页跳转主页详情##################################### -->
+						<div class="title"><a href="#" onclick="skimnews({{note.note.id}})">{{note.note.title}}</a></div>
+						<div class="comment">
+							<div class="time">发布日期：{{note.note.time}}</div>
+							<div class="good"><a href="#">23<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></a></div>
+							<div class="strap"><a href="#">123<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span></a></div>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+			<div class="side">
+				<div id="column">
+					<div id="column_title">周免英雄（7月10日-7月16日）</div>
+					<ul>
+						<a href="#"><li><img src="/static/imgs/0.jpg" alt="韩信" class="img-rounded"></li></a>
+						<a href="#"><li><img src="/static/imgs/3.jpg" alt="..." class="img-rounded"></li></a>
+						<a href="#"><li><img src="/static/imgs/2.jpg" alt="..." class="img-rounded"></li></a>
+						<a href="#"><li><img src="/static/imgs/4.jpg" alt="..." class="img-rounded"></li></a>
+						<a href="#"><li><img src="/static/imgs/5.jpg" alt="..." class="img-rounded"></li></a>
+						<a href="#"><li><img src="/static/imgs/6.jpg" alt="..." class="img-rounded"></li></a>
+						<a href="#"><li><img src="/static/imgs/7.jpg" alt="..." class="img-rounded"></li></a>
+						<a href="#"><li><img src="/static/imgs/8.jpg" alt="..." class="img-rounded"></li></a>
+						<a href="#"><li><img src="/static/imgs/9.jpg" alt="..." class="img-rounded"></li></a>
+						<a href="#"><li><img src="/static/imgs/10.jpg" alt="..." class="img-rounded"></li></a>
+						<a href="#"><li><img src="/static/imgs/11.jpg" alt="..." class="img-rounded"></li></a>
+						<a href="#"><li><img src="/static/imgs/12.jpg" alt="..." class="img-rounded"></li></a>
+						<a href="#"><li><img src="/static/imgs/13.jpg" alt="..." class="img-rounded"></li></a>
+						<a href="#"><li><img src="/static/imgs/14.jpg" alt="..." class="img-rounded"></li></a>
+						<a href="#"><li><img src="/static/imgs/15.jpg" alt="..." class="img-rounded"></li></a>
+						<a href="#"><li><img src="/static/imgs/16.jpg" alt="..." class="img-rounded"></li></a>
+						<a href="#"><li><img src="/static/imgs/17.jpg" alt="..." class="img-rounded"></li></a>
+						<a href="#"><li><img src="/static/imgs/18.jpg" alt="..." class="img-rounded"></li></a>
+						<a href="#"><li><img src="/static/imgs/19.jpg" alt="..." class="img-rounded"></li></a>
+						<a href="#"><li><img src="/static/imgs/20.jpg" alt="..." class="img-rounded"></li></a>
+						<a href="#"><li><img src="/static/imgs/21.jpg" alt="..." class="img-rounded"></li></a>
+					</ul>
+			</div>
+			</div>
+		</div>
+		<div class="footer">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<a target="_blank" href="#">王者峡谷py开黑小组</a>|
+			<a target="_blank" href="#">王者峡谷py开黑小组</a>|
+			<a target="_blank" href="#">王者峡谷py开黑小组</a>|
+			<a target="_blank" href="#">王者峡谷py开黑小组</a>|
+			<a target="_blank" href="#">王者峡谷py开黑小组</a>|
+			<a target="_blank" href="#">王者峡谷py开黑小组</a>|
+			<a target="_blank" href="#">王者峡谷py开黑小组</a>
+			<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em class="fl">COPYRIGHT &copy; 1997 &ndash; 2017 WUST. ALL RIGHTS RESERVED.</em>
+		</div>
+
+
+
+	</div>
+	<!-- 轮播js -->
+	<script src="/static/js/move.js"></script>
+	<script>
+	/*轮播*/
+	    var oBox = document.getElementsByClassName('box')[0];
+	    var aLi = oBox.getElementsByTagName('li');
+	    var oC = document.getElementById('control');
+	    var aSpan =oC.getElementsByTagName('span');
+
+	    var onOff = true;
+	    var num = 0
+	    var num2 = 0;
+	    var timer = null
+
+	    var iWidth = aLi[0].offsetWidth;
+
+	    oBox.onmouseover = function () {
+	        clearInterval(timer)
+
+	    }
+	    oBox.onmouseout = function () {
+
+	        timer = setInterval(run,2000)
+
+	    }
+
+	    timer = setInterval(run,2000)
+
+
+	    for(var i=0;i<aLi.length;i++){
+
+	        aSpan[i].index = i;
+	        aSpan[i].onmouseover = function () {
+	            clearInterval(timer)
+	            if( onOff ){
+	                onOff = !onOff
+	                for( var i=0;i<aSpan.length;i++ ){
+	                    aSpan[i].className = ''
+	                }
+	                this.className = 'active'
+	                num = this.index;
+	                num2= this.index
+
+	                startMove(oBox,{left:-this.index*iWidth})
+	                onOff = !onOff
+	            }
+	        }
+	    }
+
+	    function run() {
+	        if(  num==0){
+	            aLi[0].style.position = 'static';
+	            oBox.style.left = 0;
+	            num2 = 0
+
+	        }
+	        if( num==aLi.length-1 ){
+	            num =0;
+
+	            aLi[0].style.position = 'relative';
+	            aLi[0].style.left = aLi.length*iWidth+'px'
+	            aLi[0].style.top = 0
+	        }else {
+	            num++
+	        }
+	        num2++
+
+	        for(var i=0;i<aLi.length;i++){
+	            aSpan[i].className = '';
+	        }
+	        aSpan[num].className = 'active';
+	        startMove( oBox , { left : - num2*iWidth } );
+	    }
+	    /*悬浮特效*/
+	    function showinfo(element) {
+			document.getElementById("aaa").style.display = 'block';
+			// alert(element.id)
+		}
+		function hiddeinfo(element){
+			document.getElementById("aaa").style.display = 'none';
+		}
+
+		
+	</script>
+</body>
+</html>

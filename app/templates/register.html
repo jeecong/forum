@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>论坛成员注册</title>
+
+  <link rel="stylesheet" type="text/css" href="/static/css/register.css">
+  <script src="/static/js/jquery-1.11.3.min.js"></script>
+
+
+  <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css">
+
+
+</head>
+<body class="body">
+  <div class="form">
+    <form action="" method="post" enctype="multipart/form-data">
+        <p>用&nbsp;&nbsp;户&nbsp;&nbsp;名：<td><input type="text" id="id_name" name="username" required="required"><span id="verfiyuser"></span></td> </p>
+              <p> 昵&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称：<td><input type="text" id="id_nickname" name="nickname" required="required"></td> </p>
+              <p><td>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码：</td><td><input type="password"  name="password" required="required"> <span id="verfiypass"></span></td></p>
+              <p> <td>重复密码：</td><td><input type="password"  name="re_password" id='repass' required="required"> <span id="verfiyrepass"> </span> </td> </p>
+              <p><td>性&nbsp;&nbsp;&nbsp;&nbsp;别：</td> <td>
+                            <input type="radio" id="sex" name="sex" checked="checked" value="男">男
+                            <input type="radio" id="sex" name="sex" value="女">女
+                        </td></p>
+                  
+              <p> <td>个性签名：</td><td><textarea name="signature" id="signature" cols="30" rows="10" class="signature"></textarea></td> </p>
+              请上传头像：<input type="file" name="headerimg"><br>
+              <!-- 擅长英雄1：<input type="file" name="hero1"><br>
+              擅长英雄2：<input type="file" name="hero2"><br>
+              擅长英雄3：<input type="file" name="hero3"><br> -->
+<!--       <div id="show">擅长英雄：<br><br>
+
+
+          <img width=40 height=40 src="/static/imgs/1.jpg" name="x1">
+                <SELECT onChange="document.x1.src=options[selectedIndex].value" multiple="multiple" size="6">
+                <option value="/static/imgs/5.jpg">虞姬</option>
+                <option value="/static/imgs/4.jpg">狄仁杰</option>
+                <option value="/static/imgs/3.jpg">韩信</option>
+                <option value="/static/imgs/1.jpg">夏侯惇</option>
+                <option value="/static/imgs/6.jpg">曹操</option>
+                <option value="/static/imgs/7.jpg">孙尚香</option>
+                <option value="/static/imgs/8.jpg">兰陵王</option>
+                <option value="/static/imgs/10.jpg">不知火舞</option>
+    </div> -->
+             
+                <input type="submit" value="注册">
+                <input type="reset"  value="重置">
+
+         </form>
+    </div>
+                
+
+               
+   
+    <script type="text/javascript">
+
+        function showinfo(element){
+            
+            document.getElementById('info').style.display='block';
+
+             }
+            function hiddeinfo(element){
+
+            document.getElementById('info').style.display='none';
+         }
+         window.onload=function(){
+            //1.验证密码的安全等级
+            //获取密码框
+         var passTxt=document.querySelector("[name=password]")
+         var repass=document.getElementById('repass')
+         //给密码框绑定失去焦点事件
+
+         //声明一个变量，用于记录表单是否允许递交
+         var isSubmit=false
+
+         passTxt.onblur=function(e){
+            //获取密码框后面提示语
+            isSubmit=true
+
+            var verfiypass=document.getElementById("verfiypass")
+            if (this.value=="") {
+                verfiypass.innerHTML="请输入密码"
+                verfiypass.style.color="red"
+                isSubmit=false
+
+            }else if(this.value.length <=3){
+                verfiypass.innerHTML="密码强度：弱"
+                verfiypass.style.color="red"
+
+            }else if(this.value.length<=6){
+                  verfiypass.innerHTML="密码强度：中"
+                verfiypass.style.color="orange"   
+
+            }else{
+                 verfiypass.innerHTML="密码强度：高"
+                verfiypass.style.color="green"
+            }
+
+         }
+         //验证两次密码是否一致
+         repass.onblur=function(e){
+            //获取确认密码的提示语
+            var verfiyrepass=document.getElementById('verfiyrepass')
+            if (repass.value==passTxt.value) {
+                verfiyrepass.innerHTML="right"
+                verfiyrepass.style.color="green"
+
+            } else{
+                verfiyrepass.innerHTML="两次密码不一致"
+                verfiyrepass.style.color="red"
+                //不允许提交
+                isSubmit=false
+            };
+         }
+
+           var userTxt=document.querySelector("[name=username]")
+           var verfiyuser=document.getElementById("verfiyuser")
+
+
+            userTxt.onblur=function(e){
+             // alert("in")
+            //构建阿贾克斯请求参数
+            var data ="username="+userTxt.value
+
+            
+            //这里需要发布一个异步亲请求，查询用户名是否可用
+            //1.创建阿贾克斯对象
+            var xhr=new XMLHttpRequest()
+            //2.监听阿贾克斯对象的状态
+            //每当啊阿贾克斯的异步请求进行一部，这个函数就会被调用一次
+
+            /**
+            在整个阿贾克斯的请求与响应有四个阶段，每个阶段都有对应的状态码：如下
+            1.正在发送请求，即send方法开始调用
+            2.请求发送完毕。即send方法执行完毕（请求没问题）
+            3.正在解析响应内容
+            4.响应内容解析完毕*/
+            xhr.onreadystatechange=function(event){
+              //alert(xhr.readyState)
+              //alert(xhr.status)
+
+              if(xhr.readyState==4){
+                //说明响应成功
+                if(xhr.status==200){
+                  //说明响应内容正确
+                  //对响应内容的处理要在这里进行
+
+                  if(xhr.responseText){
+                    //存在
+                    isSubmit=false
+                    verfiyuser.innerHTML="用户名已存在"
+                    verfiyuser.style.color="red"
+                  }else{
+                    //不存在
+                    isSubmit=true
+                    verfiyuser.innerHTML="用户名可用"
+                    verfiyuser.style.color="green"
+                  }
+                }
+              }
+            }
+            //3.建立连接
+            xhr.open("post",'ajaxhandle',true)
+            /*
+            参数1.请求方法（post or get）
+            参数2.请求的接口
+            参数3.是否为异步请求
+            */
+            //4.甚至请求头
+            xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded')
+            //5.发送数据
+            xhr.send(data)//对于post请求，数据要在send发送
+
+         }
+
+         //处理提交按钮的提交事件
+         document.querySelector('[type=submit]').onclick=function(e){
+            if (!isSubmit) {
+                //阻止提交
+                e.preventDafault()
+            } else{};
+
+         }
+
+        }
+          function getSelect() {  
+              //得到select下拉列表中option的value  
+              var optionValue = document.getElementById("sel").options[document.getElementById("sel").options.selectedIndex].value;
+
+              //将他发送给后台  
+ 
+}  
+
+    </script>           
+</body>
+</html>

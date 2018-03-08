@@ -1,0 +1,19 @@
+.body{
+	width: 100%;
+	height: 630px;
+}
+.form{
+
+	position: fixed;
+
+	margin:20% 45% auto; 
+}
+.title{
+	position: relative;
+	/*margin: 18% 45% auto;*/
+
+}
+.fl{
+	color: red;
+	margin-left: 5% auto;
+}
